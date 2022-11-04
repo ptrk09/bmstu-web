@@ -1,0 +1,9 @@
+port: "5005"
+
+db:
+  username: "postgres"
+  password: "postgres"
+  host: "localhost"
+  port: "5432"
+  dbname: "football_teams"
+  sslmode: "disable"
