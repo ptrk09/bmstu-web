@@ -27,7 +27,7 @@ CREATE TABLE calendar (
 -- --------------------------------------------------------------------------------------
 
 CREATE TABLE apart_types (
-    id INTEGER,
+    id SERIAL,
     apart_type VARCHAR,
 
     PRIMARY KEY (id)
@@ -35,7 +35,7 @@ CREATE TABLE apart_types (
 
 -- --------------------------------------------------------------------------------------
 
-CREATE TABLE hosts (
+CREATE TABLE roles (
     id SERIAL,
     name VARCHAR,
 
@@ -49,8 +49,8 @@ CREATE TABLE users (
     name VARCHAR,
     login VARCHAR,
     password VARCHAR,
-    host_id INTEGER,
+    role_id INTEGER,
 
     PRIMARY KEY (id),
-    FOREIGN KEY (host_id) REFERENCES hosts (id)
+    FOREIGN KEY (role_id) REFERENCES roles (id)
 )
