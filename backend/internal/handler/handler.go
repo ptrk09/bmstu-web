@@ -25,32 +25,20 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 	api := router.Group("v1/", h.userIdentity)
 	{
-		users := api.Group("users")
-		{
-			users.POST("/", h.createUser)
-			users.GET("/", h.getAllUsers)
-			users.GET("/:id", h.getUserById)
-			users.PUT("/:id", h.updateUser)
-			users.DELETE("/:id", h.deleteUser)
-		}
 
-		players := api.Group("players")
+		listings := api.Group("listings")
 		{
-			players.POST("/", h.createPlayer)
-			players.GET("/", h.getAllPlayers)
-			players.GET("/:id", h.getPlayerById)
-			players.PUT("/:id", h.updatePlayer)
-			players.DELETE("/:id", h.deletePlayer)
+			listings.GET("/", h.getAllListings)
 		}
+		// teams := api.Group("teams")
+		// {
+		// 	teams.POST("/", h.createTeam)
+		// 	teams.GET("/", h.getAllTeams)
+		// 	teams.GET("/:id", h.getTeamById)
+		// 	teams.PUT("/:id", h.updateTeam)
+		// 	teams.DELETE("/:id", h.deleteTeam)
+		// }
 
-		teams := api.Group("teams")
-		{
-			teams.POST("/", h.createTeam)
-			teams.GET("/", h.getAllTeams)
-			teams.GET("/:id", h.getTeamById)
-			teams.PUT("/:id", h.updateTeam)
-			teams.DELETE("/:id", h.deleteTeam)
-		}
 	}
 
 	return router

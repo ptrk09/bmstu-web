@@ -1,9 +1,9 @@
 package service
 
 import (
-	"crypto/sha1"
+	"crypto/sha256"
+	"encoding/hex"
 	"errors"
-	"fmt"
 	"time"
 	"web/internal/model"
 	"web/internal/repository"
@@ -23,7 +23,13 @@ type AuthService struct {
 
 type tokenClaims struct {
 	jwt.StandardClaims
-	UserId int `json:"user_id"`
+	UserId int    `json:"userId"`
+	Role   string `json:"role"`
+}
+
+type UserContextData struct {
+	UserId int    `json:"userId"`
+	Role   string `json:"role"`
 }
 
 func NewAuthService(repo repository.Authorization) *AuthService {
@@ -47,12 +53,13 @@ func (s *AuthService) GenerateToken(login, password string) (string, error) {
 			IssuedAt:  jwt.At(time.Now()),
 		},
 		user.ID,
+		user.Role,
 	})
 
 	return token.SignedString([]byte(signingKey))
 }
 
-func (s *AuthService) ParseToken(accessToken string) (int, error) {
+func (s *AuthService) ParseToken(accessToken string) (UserContextData, error) {
 	token, err := jwt.ParseWithClaims(accessToken, &tokenClaims{}, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("invalid signing method")
@@ -62,19 +69,34 @@ func (s *AuthService) ParseToken(accessToken string) (int, error) {
 	})
 
 	if err != nil {
-		return 0, err
+		return UserContextData{0, ""}, err
 	}
 
 	claim, ok := token.Claims.(*tokenClaims)
 	if !ok {
-		return 0, errors.New("token claims are not of type *tokenClaims")
+		return UserContextData{0, ""}, errors.New("token claims are not of type *tokenClaims")
 	}
 
-	return claim.UserId, nil
+	return UserContextData{claim.UserId, claim.Role}, nil
 }
 
+// func generatePasswordHash(password string) string {
+// 	var passwordBytes = []byte(password)
+// 	passwordBytes = append(passwordBytes, []byte(salt)...)
+// 	hash := sha256.Sum256(passwordBytes)
+// 	return hex.EncodeToString(hash)
+// 	// hash := sha1.New()
+// 	// hash.Write([]byte(password))
+// 	// return base64.URLEncoding.EncodeToString(hash.Sum([]byte(salt)))
+// }
+
 func generatePasswordHash(password string) string {
-	hash := sha1.New()
-	hash.Write([]byte(password))
-	return fmt.Sprintf("%x", hash.Sum([]byte(salt)))
+	passwordBytes := []byte(password)
+	sha256Hasher := sha256.New()
+	sha256Hasher.Write(passwordBytes)
+
+	hashedPasswordBytes := sha256Hasher.Sum(nil)
+	hashedPasswordHex := hex.EncodeToString(hashedPasswordBytes)
+
+	return hashedPasswordHex
 }
