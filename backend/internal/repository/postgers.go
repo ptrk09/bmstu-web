@@ -10,10 +10,8 @@ import (
 const (
 	typeDB = "postgres"
 
-	usersTable       = "users"
-	playersTable     = "players"
-	teamsTable       = "teams"
-	teamplayersTable = "teamplayer"
+	usersTable = "users"
+	rolesTable = "roles"
 )
 
 type Config struct {
