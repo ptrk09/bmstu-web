@@ -26,10 +26,19 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	api := router.Group("v1/", h.userIdentity)
 	{
 
+		users := api.Group("users")
+		{
+			users.GET("/", h.getAllUsers)
+			users.GET("/:id", h.getUserById)
+			users.PUT("/:id", h.updateUser)
+			users.DELETE("/:id", h.deleteUser)
+		}
+
 		listings := api.Group("listings")
 		{
 			listings.GET("/", h.getAllListings)
 		}
+
 		// teams := api.Group("teams")
 		// {
 		// 	teams.POST("/", h.createTeam)

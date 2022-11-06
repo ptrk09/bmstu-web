@@ -12,6 +12,10 @@ type Authorization interface {
 }
 
 type User interface {
+	GetAllUsers() ([]model.User, error)
+	GetUserById(userId int) (model.User, error)
+	UpdateUser(userId int, input model.UpdateUserInput) (int, error)
+	DeleteUser(userId int) (int, error)
 }
 
 type Listing interface {
