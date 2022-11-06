@@ -1,44 +1,37 @@
 package repository
 
-import (
-	"fmt"
-	"web/internal/model"
+// type TeamPostgres struct {
+// 	db *sqlx.DB
+// }
 
-	"github.com/jmoiron/sqlx"
-)
+// func NewTeamPostgres(db *sqlx.DB) *TeamPostgres {
+// 	return &TeamPostgres{db}
+// }
 
-type TeamPostgres struct {
-	db *sqlx.DB
-}
+// func (r *TeamPostgres) Create(userId int, team model.Team) (int, error) {
+// 	tx, err := r.db.Begin()
+// 	if err != nil {
+// 		return 0, err
+// 	}
 
-func NewTeamPostgres(db *sqlx.DB) *TeamPostgres {
-	return &TeamPostgres{db}
-}
+// 	var teamId int
+// 	query := fmt.Sprintf("INSERT INTO %s (name, owner_id) values ($1, $2) RETURNING id", teamsTable)
 
-func (r *TeamPostgres) Create(userId int, team model.Team) (int, error) {
-	tx, err := r.db.Begin()
-	if err != nil {
-		return 0, err
-	}
+// 	row := tx.QueryRow(query, team.Name, userId)
+// 	err = row.Scan(&teamId)
+// 	if err != nil {
+// 		tx.Rollback()
+// 		return 0, err
+// 	}
 
-	var teamId int
-	query := fmt.Sprintf("INSERT INTO %s (name, owner_id) values ($1, $2) RETURNING id", teamsTable)
+// 	return teamId, tx.Commit()
+// }
 
-	row := tx.QueryRow(query, team.Name, userId)
-	err = row.Scan(&teamId)
-	if err != nil {
-		tx.Rollback()
-		return 0, err
-	}
+// func (r *TeamPostgres) GetAll(userId int) ([]model.Team, error) {
+// 	var teams []model.Team
 
-	return teamId, tx.Commit()
-}
+// 	query := fmt.Sprintf("SELECT * FROM %s", teamsTable)
+// 	err := r.db.Select(&teams, query)
 
-func (r *TeamPostgres) GetAll(userId int) ([]model.Team, error) {
-	var teams []model.Team
-
-	query := fmt.Sprintf("SELECT * FROM %s", teamsTable)
-	err := r.db.Select(&teams, query)
-
-	return teams, err
-}
+// 	return teams, err
+// }
