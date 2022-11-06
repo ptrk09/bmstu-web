@@ -1,14 +1,14 @@
 CREATE TABLE listings (
     id SERIAL, 
     name VARCHAR, 
-    host_id INTEGER,
+    user_id INTEGER,
     neighbourhood VARCHAR,
     apart_type_id INTEGER,
     price FLOAT,
     minimum_nights INTEGER,
 
     PRIMARY KEY (id),
-    FOREIGN KEY (host_id) REFERENCES hosts (id),
+    FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (apart_type_id) REFERENCES apart_types (id)
 );
 
