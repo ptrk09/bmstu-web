@@ -19,6 +19,7 @@ type User interface {
 }
 
 type Listing interface {
+	GetListingsByName(name string) ([]model.Listing, error)
 }
 
 type Calendar interface {

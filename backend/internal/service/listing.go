@@ -17,10 +17,10 @@ func (s *ListingService) CreateListing(model.Listing) (int, error) {
 	return 0, nil
 }
 
-func (s *ListingService) GetListingsByName(id int) (model.Listing, error) {
-	return model.Listing{}, nil
-}
-
 func (s *ListingService) GetAllListings() ([]model.Listing, error) {
 	return []model.Listing{}, nil
+}
+
+func (s *ListingService) GetListingsByName(name string) (model.Listing, error) {
+	return s.repo.GetListingsByName(name)
 }
