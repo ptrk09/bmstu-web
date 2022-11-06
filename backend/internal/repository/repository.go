@@ -43,6 +43,7 @@ func NewRepository(db *sqlx.DB) *Repository {
 		Authorization: NewAuthPostgres(db),
 		Listing:       NewListingPostgres(db),
 		Calendar:      NewCalendarPostgres(db),
+		User:          NewUserPostgres(db),
 		// Team:          NewTeamPostgres(db),
 	}
 }
