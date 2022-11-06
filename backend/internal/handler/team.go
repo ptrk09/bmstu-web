@@ -1,66 +1,59 @@
 package handler
 
-import (
-	"net/http"
-	"web/internal/model"
+// func (h *Handler) createTeam(ctx *gin.Context) {
+// 	id, err := getUserId(ctx)
+// 	if err != nil {
+// 		return
+// 	}
 
-	"github.com/gin-gonic/gin"
-)
+// 	var input model.Team
+// 	if err := ctx.BindJSON(&input); err != nil {
+// 		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
+// 		return
+// 	}
 
-func (h *Handler) createTeam(ctx *gin.Context) {
-	id, err := getUserId(ctx)
-	if err != nil {
-		return
-	}
+// 	idTeam, err := h.services.Team.Create(id, input)
+// 	if err != nil {
+// 		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
+// 		return
+// 	}
 
-	var input model.Team
-	if err := ctx.BindJSON(&input); err != nil {
-		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
-		return
-	}
+// 	ctx.JSON(http.StatusOK, map[string]interface{}{
+// 		"id": idTeam,
+// 	})
+// }
 
-	idTeam, err := h.services.Team.Create(id, input)
-	if err != nil {
-		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
-		return
-	}
+// type getAllListsResponse struct {
+// 	Data []model.Team `json:"data"`
+// }
 
-	ctx.JSON(http.StatusOK, map[string]interface{}{
-		"id": idTeam,
-	})
-}
+// func (h *Handler) getAllTeams(ctx *gin.Context) {
+// 	userId, err := getUserId(ctx)
+// 	if err != nil {
+// 		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
+// 		return
+// 	}
 
-type getAllListsResponse struct {
-	Data []model.Team `json:"data"`
-}
+// 	teams, err := h.services.Team.GetAll(userId)
+// 	if err != nil {
+// 		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
+// 		return
+// 	}
 
-func (h *Handler) getAllTeams(ctx *gin.Context) {
-	userId, err := getUserId(ctx)
-	if err != nil {
-		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
-		return
-	}
+// 	ctx.JSON(http.StatusOK, getAllListsResponse{
+// 		Data: teams,
+// 	})
 
-	teams, err := h.services.Team.GetAll(userId)
-	if err != nil {
-		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
-		return
-	}
+// }
 
-	ctx.JSON(http.StatusOK, getAllListsResponse{
-		Data: teams,
-	})
+// func (h *Handler) getTeamById(ctx *gin.Context) {
 
-}
+// }
 
-func (h *Handler) getTeamById(ctx *gin.Context) {
+// func (h *Handler) updateTeam(ctx *gin.Context) {
 
-}
+// }
 
-func (h *Handler) updateTeam(ctx *gin.Context) {
+// func (h *Handler) deleteTeam(ctx *gin.Context) {
 
-}
-
-func (h *Handler) deleteTeam(ctx *gin.Context) {
-
-}
+// }

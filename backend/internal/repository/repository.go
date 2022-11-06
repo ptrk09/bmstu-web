@@ -14,24 +14,30 @@ type Authorization interface {
 type User interface {
 }
 
-type Player interface {
+type Listing interface {
 }
 
-type Team interface {
-	Create(userId int, team model.Team) (int, error)
-	GetAll(userId int) ([]model.Team, error)
+type Calendar interface {
 }
+
+// type Team interface {
+// 	Create(userId int, team model.Team) (int, error)
+// 	GetAll(userId int) ([]model.Team, error)
+// }
 
 type Repository struct {
 	Authorization
 	User
-	Player
-	Team
+	Listing
+	Calendar
+	// Team
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgres(db),
-		Team:          NewTeamPostgres(db),
+		Listing:       NewListingPostgres(db),
+		Calendar:      NewCalendarPostgres(db),
+		// Team:          NewTeamPostgres(db),
 	}
 }

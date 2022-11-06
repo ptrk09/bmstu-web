@@ -10,7 +10,8 @@ import (
 
 const (
 	authorizationHeader = "Authorization"
-	usertCtx            = "userId"
+	usertIdCtx          = "userId"
+	userRoleCtx         = "role"
 )
 
 func (h *Handler) userIdentity(ctx *gin.Context) {
@@ -26,17 +27,18 @@ func (h *Handler) userIdentity(ctx *gin.Context) {
 		return
 	}
 
-	userId, err := h.services.Authorization.ParseToken(headerParts[1])
+	userCtx, err := h.services.Authorization.ParseToken(headerParts[1])
 	if err != nil {
 		newErrorResponse(ctx, http.StatusUnauthorized, "invalid auth header")
 		return
 	}
 
-	ctx.Set(usertCtx, userId)
+	ctx.Set(usertIdCtx, userCtx.UserId)
+	ctx.Set(userRoleCtx, userCtx.Role)
 }
 
 func getUserId(ctx *gin.Context) (int, error) {
-	id, ok := ctx.Get(usertCtx)
+	id, ok := ctx.Get(usertIdCtx)
 
 	if !ok {
 		newErrorResponse(ctx, http.StatusInternalServerError, "user id is not found")
@@ -50,4 +52,21 @@ func getUserId(ctx *gin.Context) (int, error) {
 	}
 
 	return idInt, nil
+}
+
+func getUserRole(ctx *gin.Context) (string, error) {
+	role, ok := ctx.Get(userRoleCtx)
+
+	if !ok {
+		newErrorResponse(ctx, http.StatusInternalServerError, "user role is not found")
+		return "", errors.New("user role is not found")
+	}
+
+	stringRole, ok := role.(string)
+	if !ok {
+		newErrorResponse(ctx, http.StatusInternalServerError, "user role is of invalid type")
+		return "", errors.New("user role is not found")
+	}
+
+	return stringRole, nil
 }
