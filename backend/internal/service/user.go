@@ -26,5 +26,6 @@ func (s *UserService) DeleteUser(userId int) (int, error) {
 }
 
 func (s *UserService) UpdateUser(userId int, input model.UpdateUserInput) (int, error) {
+	input.Password = generatePasswordHash(input.Password)
 	return s.repo.UpdateUser(userId, input)
 }
