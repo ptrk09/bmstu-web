@@ -28,7 +28,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 		listings := api.Group("listings")
 		{
-			listings.GET("/", h.getAllListings)
+			listings.GET("/", h.getListingsByName)
 		}
 		// teams := api.Group("teams")
 		// {
