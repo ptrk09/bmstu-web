@@ -4,7 +4,6 @@ COPY roles FROM '/Users/temasarkisov/MyProjects/BMSTU/bmstu-web/database/data/da
 
 COPY users FROM '/Users/temasarkisov/MyProjects/BMSTU/bmstu-web/database/data/data_csv_clean/users.csv' DELIMITER ';' CSV HEADER;
 
-
 COPY listings FROM '/Users/temasarkisov/MyProjects/BMSTU/BMSTU-Web/database/data/data_csv_clean/listings.csv' DELIMITER ';' CSV HEADER;
 
 COPY calendar (listing_id, date, available) FROM '/Users/temasarkisov/MyProjects/BMSTU/BMSTU-Web/database/data/data_csv_clean/calendar.csv' DELIMITER ';' CSV HEADER;
