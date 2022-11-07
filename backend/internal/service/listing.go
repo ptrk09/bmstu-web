@@ -21,6 +21,6 @@ func (s *ListingService) GetAllListings() ([]model.Listing, error) {
 	return []model.Listing{}, nil
 }
 
-func (s *ListingService) GetListingsByName(name string) (model.Listing, error) {
+func (s *ListingService) GetListingsByName(name string) ([]model.Listing, error) {
 	return s.repo.GetListingsByName(name)
 }

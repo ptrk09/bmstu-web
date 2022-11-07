@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 	"web/internal/model"
 
@@ -12,7 +13,15 @@ type getAllListingsResponse struct {
 }
 
 func (h *Handler) getListingsByName(ctx *gin.Context) {
-	listings, err := h.services.Listing.GetListingsByName()
+	name := ctx.Query("name")
+	// if err != nil {
+	// 	newErrorResponse(ctx, http.StatusBadRequest, "invalid name param")
+	// 	return
+	// }
+
+	fmt.Print("name = ", name, "\n")
+
+	listings, err := h.services.Listing.GetListingsByName(name)
 	if err != nil {
 		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
 		return
