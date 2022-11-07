@@ -37,6 +37,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		listings := api.Group("listings")
 		{
 			listings.GET("/", h.getListings)
+			listings.POST("/", h.createListing)
 		}
 
 		// teams := api.Group("teams")
