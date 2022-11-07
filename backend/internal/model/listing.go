@@ -11,7 +11,7 @@ package model
 // }
 
 type Listing struct {
-	ID     int    `json:"id" db:"id"`
-	Name   string `json:"name" binding:"required"`
-	UserID int    `json:"userID" db:"user_id" binding:"required"`
+	ID     int    `form:"id" json:"id" db:"id"`
+	Name   string `form:"name" json:"name" db:"name"`
+	UserID int    `form:"user_id" json:"user_id" db:"user_id"`
 }

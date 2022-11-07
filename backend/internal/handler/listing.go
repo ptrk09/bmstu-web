@@ -6,22 +6,35 @@ import (
 	"web/internal/model"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 )
 
 type getAllListingsResponse struct {
 	Data []model.Listing `json:"data"`
 }
 
-func (h *Handler) getListingsByName(ctx *gin.Context) {
-	name := ctx.Query("name")
-	// if err != nil {
-	// 	newErrorResponse(ctx, http.StatusBadRequest, "invalid name param")
+func (h *Handler) getListings(ctx *gin.Context) {
+	var listing model.Listing
+
+	// if err := ctx.ShouldBindJSON(&json); err != nil {
+	// 	newErrorResponse(ctx, http.StatusBadRequest, "invalid json")
 	// 	return
 	// }
 
-	fmt.Print("name = ", name, "\n")
+	if err := ctx.ShouldBindWith(&listing, binding.Query); err != nil {
+		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
 
-	listings, err := h.services.Listing.GetListingsByName(name)
+	id := listing.ID
+	name := listing.Name
+	user_id := listing.UserID
+
+	fmt.Print("id = ", id, "\n")
+	fmt.Print("name = ", name, "\n")
+	fmt.Print("user_id = ", user_id, "\n")
+
+	listings, err := h.services.Listing.GetListings(id, name, user_id)
 	if err != nil {
 		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
 		return
