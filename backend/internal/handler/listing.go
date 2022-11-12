@@ -16,11 +16,6 @@ type getAllListingsResponse struct {
 func (h *Handler) getListings(ctx *gin.Context) {
 	var listing model.Listing
 
-	// if err := ctx.ShouldBindJSON(&json); err != nil {
-	// 	newErrorResponse(ctx, http.StatusBadRequest, "invalid json")
-	// 	return
-	// }
-
 	if err := ctx.ShouldBindWith(&listing, binding.Query); err != nil {
 		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
 		return
@@ -28,13 +23,13 @@ func (h *Handler) getListings(ctx *gin.Context) {
 
 	id := listing.ID
 	name := listing.Name
-	user_id := listing.UserID
+	userId := listing.UserID
 
 	fmt.Print("id = ", id, "\n")
 	fmt.Print("name = ", name, "\n")
-	fmt.Print("user_id = ", user_id, "\n")
+	fmt.Print("userId = ", userId, "\n")
 
-	listings, err := h.services.Listing.GetListings(id, name, user_id)
+	listings, err := h.services.Listing.GetListings(id, name, userId)
 	if err != nil {
 		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
 		return
@@ -45,5 +40,66 @@ func (h *Handler) getListings(ctx *gin.Context) {
 	})
 }
 
-// func (h *Handler) createListing(ctx *gin.Context) {
-// }
+func (h *Handler) createListing(ctx *gin.Context) {
+	var listing model.Listing
+
+	if err := ctx.ShouldBindJSON(&listing); err != nil {
+		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	listingId, err := h.services.Listing.CreateListing(listing)
+	if err != nil {
+		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	ctx.JSON(http.StatusOK, map[string]interface{}{
+		"id": listingId,
+	})
+}
+
+func (h *Handler) updateListing(ctx *gin.Context) {
+	var listing model.Listing
+
+	if err := ctx.ShouldBindJSON(&listing); err != nil {
+		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	id := listing.ID
+	name := listing.Name
+	fmt.Print("id = ", id, "\n")
+	fmt.Print("name = ", name, "\n")
+
+	userId, err := h.services.Listing.UpdateListing(id, name)
+	if err != nil {
+		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	ctx.JSON(http.StatusOK, map[string]interface{}{
+		"user_id": userId,
+	})
+}
+
+func (h *Handler) deleteListing(ctx *gin.Context) {
+	var listing model.Listing
+
+	if err := ctx.ShouldBindJSON(&listing); err != nil {
+		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	id := listing.ID
+
+	listingId, err := h.services.Listing.DeleteListing(id)
+	if err != nil {
+		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	ctx.JSON(http.StatusOK, map[string]interface{}{
+		"id": listingId,
+	})
+}

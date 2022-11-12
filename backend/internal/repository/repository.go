@@ -20,6 +20,30 @@ type User interface {
 
 type Listing interface {
 	GetListings(id int, name string, user_id int) ([]model.Listing, error)
+	CreateListing(listing model.Listing) (int, error)
+	UpdateListing(id int, name string) (int, error)
+	DeleteListing(id int) (int, error)
+}
+
+type ListingDetailed interface {
+	GetListingsDetailed(
+		id int,
+		description string,
+		neighbourhood string,
+		apartTypeId int,
+		price float32,
+		minimumNights int,
+	) ([]model.ListingDetailed, error)
+	CreateListingDetailed(listingDetailed model.ListingDetailed) (int, error)
+	UpdateListingDetailed(
+		id int,
+		description string,
+		neighbourhood string,
+		apartTypeId int,
+		price float32,
+		minimumNights int,
+	) (int, error)
+	DeleteListingDetailed(id int) (int, error)
 }
 
 type Calendar interface {
@@ -34,16 +58,18 @@ type Repository struct {
 	Authorization
 	User
 	Listing
+	ListingDetailed
 	Calendar
 	// Team
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
-		Authorization: NewAuthPostgres(db),
-		Listing:       NewListingPostgres(db),
-		Calendar:      NewCalendarPostgres(db),
-		User:          NewUserPostgres(db),
+		Authorization:   NewAuthPostgres(db),
+		User:            NewUserPostgres(db),
+		Listing:         NewListingPostgres(db),
+		ListingDetailed: NewListingDetailedPostgres(db),
+		Calendar:        NewCalendarPostgres(db),
 		// Team:          NewTeamPostgres(db),
 	}
 }
