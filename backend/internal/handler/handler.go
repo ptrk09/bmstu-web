@@ -42,6 +42,11 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			listings.DELETE("/", h.deleteListing)
 		}
 
+		listingsDetailed := api.Group("listings_detailed")
+		{
+			listingsDetailed.GET("/", h.getListingsDetailed)
+		}
+
 		// teams := api.Group("teams")
 		// {
 		// 	teams.POST("/", h.createTeam)
