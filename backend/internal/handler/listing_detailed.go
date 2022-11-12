@@ -21,6 +21,7 @@ func (h *Handler) getListingsDetailed(ctx *gin.Context) {
 	}
 
 	id := listingDetailed.ID
+	listing_id := listingDetailed.ListingID
 	description := listingDetailed.Description
 	neighbourhood := listingDetailed.Neighbourhood
 	apartTypeId := listingDetailed.ApartTypeId
@@ -29,6 +30,7 @@ func (h *Handler) getListingsDetailed(ctx *gin.Context) {
 
 	listingsDetailed, err := h.services.ListingDetailed.GetListingsDetailed(
 		id,
+		listing_id,
 		description,
 		neighbourhood,
 		apartTypeId,
