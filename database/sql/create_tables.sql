@@ -41,7 +41,8 @@ CREATE TABLE IF NOT EXISTS listings (
 -- --------------------------------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS listings_detailed (
-    id SERIAL, 
+    id SERIAL,
+    listing_id INTEGER,
     description TEXT,
     neighbourhood VARCHAR,
     apart_type_id INTEGER,
@@ -49,6 +50,7 @@ CREATE TABLE IF NOT EXISTS listings_detailed (
     minimum_nights INTEGER,
 
     PRIMARY KEY (id),
+    FOREIGN KEY (listing_id) REFERENCES listings (id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (apart_type_id) REFERENCES apart_types (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
