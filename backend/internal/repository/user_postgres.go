@@ -43,8 +43,7 @@ func (r *UserPostgres) GetUserById(userId int) (model.User, error) {
 		WHERE u.id = 1;`,
 		usersTable, rolesTable,
 	)
-	// err := r.db.Get(&user, query)
-	err := r.db.Select(&user, query)
+	err := r.db.Get(&user, query)
 
 	return user, err
 }
