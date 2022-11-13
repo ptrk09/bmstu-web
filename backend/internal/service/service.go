@@ -45,6 +45,13 @@ type ListingDetailed interface {
 	DeleteListingDetailed(id int) (int, error)
 }
 
+type ListingImage interface {
+	GetListingImages(id int) ([]model.ListingImage, error)
+	CreateListingImage(listingImage model.ListingImage) (int, error)
+	UpdateLisingImage(id int, imagePath string) (int, error)
+	DeleteListingImage(id int) (int, error)
+}
+
 type Calendar interface{}
 
 // type Team interface {
@@ -57,6 +64,7 @@ type Service struct {
 	User
 	Listing
 	ListingDetailed
+	ListingImage
 	Calendar
 	// Team
 }
@@ -67,6 +75,7 @@ func NewService(repo *repository.Repository) *Service {
 		User:            NewUserService(repo.User),
 		Listing:         NewListingService(repo.Listing),
 		ListingDetailed: NewListingDetailedService(repo.ListingDetailed),
+		ListingImage:    NewListingImageService(repo.ListingImage),
 		Calendar:        NewCalendarService(repo.Calendar),
 		// Team:          NewTeamService(repo.Team),
 	}

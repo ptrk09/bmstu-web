@@ -70,8 +70,6 @@ func (r *ListingDetailedPostgres) GetListingsDetailed(
 		query = query + fmt.Sprintf(" AND minimum_nights = %d", minimumNights)
 	}
 
-	fmt.Print(query)
-
 	err := r.db.Select(&listingsDetailed, query)
 
 	return listingsDetailed, err
@@ -139,8 +137,6 @@ func (r *ListingDetailedPostgres) UpdateListingDetailed(
 	}
 
 	query = query + fmt.Sprintf(" WHERE id = %d RETURNING id", id)
-
-	fmt.Print(query)
 
 	row := tx.QueryRow(query)
 	err = row.Scan(&listingId)
