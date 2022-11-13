@@ -42,16 +42,6 @@ func (h *Handler) createListingImage(ctx *gin.Context) {
 		return
 	}
 
-	if listingImage.ListingID == 0 {
-		newErrorResponse(ctx, http.StatusBadRequest, "Parameter listing id is not defined.")
-		return
-	}
-
-	if listingImage.ImagePath == "" {
-		newErrorResponse(ctx, http.StatusBadRequest, "Parameter image path is not defined.")
-		return
-	}
-
 	listingImageId, err := h.services.ListingImage.CreateListingImage(listingImage)
 	if err != nil {
 		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())

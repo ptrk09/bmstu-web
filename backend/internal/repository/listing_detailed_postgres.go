@@ -85,7 +85,7 @@ func (r *ListingDetailedPostgres) CreateListingDetailed(
 
 	var listingDetailedId int
 	query := fmt.Sprintf("INSERT INTO %s (listing_id, description, neighbourhood, apart_type_id, price, minimum_nights) values (%d, '%s', '%s', %d, %f, %d) RETURNING id",
-		listingsTable,
+		lisingsDetailedTable,
 		listingDetailed.ListingID,
 		listingDetailed.Description,
 		listingDetailed.Neighbourhood,

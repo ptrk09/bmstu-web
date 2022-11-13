@@ -55,16 +55,6 @@ func (h *Handler) createListingDetailed(ctx *gin.Context) {
 		return
 	}
 
-	if listingDetailed.ListingID == 0 {
-		newErrorResponse(ctx, http.StatusBadRequest, "Parameter listing id is not defined.")
-		return
-	}
-
-	if listingDetailed.Price == 0.0 {
-		newErrorResponse(ctx, http.StatusBadRequest, "Parameter price is not defined.")
-		return
-	}
-
 	listingDetailedId, err := h.services.ListingDetailed.CreateListingDetailed(listingDetailed)
 	if err != nil {
 		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
