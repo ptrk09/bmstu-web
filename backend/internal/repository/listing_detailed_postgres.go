@@ -85,8 +85,8 @@ func (r *ListingDetailedPostgres) CreateListingDetailed(
 		return 0, err
 	}
 
-	var listingId int
-	query := fmt.Sprintf("INSERT INTO %s (listing_id, description, neighbourhood, apart_type_id, price, minimum_nights) values (%d, '%s', '%s', %d, %f, %d) RETURNING listing_id",
+	var listingDetailedId int
+	query := fmt.Sprintf("INSERT INTO %s (listing_id, description, neighbourhood, apart_type_id, price, minimum_nights) values (%d, '%s', '%s', %d, %f, %d) RETURNING id",
 		listingsTable,
 		listingDetailed.ListingID,
 		listingDetailed.Description,
@@ -97,21 +97,18 @@ func (r *ListingDetailedPostgres) CreateListingDetailed(
 	)
 
 	row := tx.QueryRow(query)
-	err = row.Scan(&listingId)
+	err = row.Scan(&listingDetailedId)
 	if err != nil {
 		tx.Rollback()
 		return 0, err
 	}
 
-	return listingId, tx.Commit()
+	return listingDetailedId, tx.Commit()
 }
 
 func (r *ListingDetailedPostgres) UpdateListingDetailed(
 	id int,
-	listing_id int,
 	description string,
-	neighbourhood string,
-	apartTypeId int,
 	price float32,
 	minimumNights int,
 ) (int, error) {
@@ -123,28 +120,10 @@ func (r *ListingDetailedPostgres) UpdateListingDetailed(
 	var listingId int
 	query := fmt.Sprintf("UPDATE %s SET", lisingsDetailedTable)
 
-	if listing_id == 0 {
-		query = query + fmt.Sprintf(" listing_id = %s", "listing_id")
-	} else {
-		query = query + fmt.Sprintf(" listing_id = %d", listing_id)
-	}
-
 	if description == "" {
-		query = query + fmt.Sprintf(", description = %s", "description")
+		query = query + fmt.Sprintf(" description = %s", "description")
 	} else {
-		query = query + fmt.Sprintf(", description = %s", description)
-	}
-
-	if neighbourhood == "" {
-		query = query + fmt.Sprintf(", neighbourhood = %s", "neighbourhood")
-	} else {
-		query = query + fmt.Sprintf(", neighbourhood = %s", neighbourhood)
-	}
-
-	if apartTypeId == 0 {
-		query = query + fmt.Sprintf(", apart_type_id = %s", "apart_type_id")
-	} else {
-		query = query + fmt.Sprintf(", apart_type_id = %d", apartTypeId)
+		query = query + fmt.Sprintf(" description = %s", description)
 	}
 
 	if price == 0.0 {

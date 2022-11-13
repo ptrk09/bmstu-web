@@ -38,10 +38,7 @@ type ListingDetailed interface {
 	CreateListingDetailed(listingDetailed model.ListingDetailed) (int, error)
 	UpdateListingDetailed(
 		id int,
-		listing_id int,
 		description string,
-		neighbourhood string,
-		apartTypeId int,
 		price float32,
 		minimumNights int,
 	) (int, error)

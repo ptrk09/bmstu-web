@@ -39,19 +39,13 @@ func (s *ListingDetailedService) CreateListingDetailed(listingDetailed model.Lis
 
 func (s *ListingDetailedService) UpdateListingDetailed(
 	id int,
-	listing_id int,
 	description string,
-	neighbourhood string,
-	apartTypeId int,
 	price float32,
 	minimumNights int,
 ) (int, error) {
 	return s.repo.UpdateListingDetailed(
 		id,
-		listing_id,
 		description,
-		neighbourhood,
-		apartTypeId,
 		price,
 		minimumNights,
 	)

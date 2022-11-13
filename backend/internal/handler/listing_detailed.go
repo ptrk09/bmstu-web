@@ -47,66 +47,72 @@ func (h *Handler) getListingsDetailed(ctx *gin.Context) {
 	})
 }
 
-// func (h *Handler) createListing(ctx *gin.Context) {
-// 	var listing model.Listing
+func (h *Handler) createListingDetailed(ctx *gin.Context) {
+	var listingDetailed model.ListingDetailed
 
-// 	if err := ctx.ShouldBindJSON(&listing); err != nil {
-// 		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
-// 		return
-// 	}
+	if err := ctx.ShouldBindJSON(&listingDetailed); err != nil {
+		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
 
-// 	listingId, err := h.services.Listing.CreateListing(listing)
-// 	if err != nil {
-// 		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
-// 		return
-// 	}
+	listingDetailedId, err := h.services.ListingDetailed.CreateListingDetailed(listingDetailed)
+	if err != nil {
+		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
+		return
+	}
 
-// 	ctx.JSON(http.StatusOK, map[string]interface{}{
-// 		"id": listingId,
-// 	})
-// }
+	ctx.JSON(http.StatusOK, map[string]interface{}{
+		"id": listingDetailedId,
+	})
+}
 
-// func (h *Handler) updateListing(ctx *gin.Context) {
-// 	var listing model.Listing
+func (h *Handler) updateListingDetailed(ctx *gin.Context) {
+	var listingDetailed model.ListingDetailed
 
-// 	if err := ctx.ShouldBindJSON(&listing); err != nil {
-// 		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
-// 		return
-// 	}
+	if err := ctx.ShouldBindJSON(&listingDetailed); err != nil {
+		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
 
-// 	id := listing.ID
-// 	name := listing.Name
-// 	fmt.Print("id = ", id, "\n")
-// 	fmt.Print("name = ", name, "\n")
+	id := listingDetailed.ID
+	description := listingDetailed.Description
+	price := listingDetailed.Price
+	minimim_nights := listingDetailed.MinimumNights
 
-// 	userId, err := h.services.Listing.UpdateListing(id, name)
-// 	if err != nil {
-// 		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
-// 		return
-// 	}
+	listingDetailedId, err := h.services.ListingDetailed.UpdateListingDetailed(
+		id,
+		description,
+		price,
+		minimim_nights,
+	)
 
-// 	ctx.JSON(http.StatusOK, map[string]interface{}{
-// 		"user_id": userId,
-// 	})
-// }
+	if err != nil {
+		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
+		return
+	}
 
-// func (h *Handler) deleteListing(ctx *gin.Context) {
-// 	var listing model.Listing
+	ctx.JSON(http.StatusOK, map[string]interface{}{
+		"id": listingDetailedId,
+	})
+}
 
-// 	if err := ctx.ShouldBindJSON(&listing); err != nil {
-// 		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
-// 		return
-// 	}
+func (h *Handler) deleteListingDetailed(ctx *gin.Context) {
+	var listingDetailed model.ListingDetailed
 
-// 	id := listing.ID
+	if err := ctx.ShouldBindJSON(&listingDetailed); err != nil {
+		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
 
-// 	listingId, err := h.services.Listing.DeleteListing(id)
-// 	if err != nil {
-// 		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
-// 		return
-// 	}
+	id := listingDetailed.ID
 
-// 	ctx.JSON(http.StatusOK, map[string]interface{}{
-// 		"id": listingId,
-// 	})
-// }
+	listingDetailedId, err := h.services.ListingDetailed.DeleteListingDetailed(id)
+	if err != nil {
+		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	ctx.JSON(http.StatusOK, map[string]interface{}{
+		"id": listingDetailedId,
+	})
+}
