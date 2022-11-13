@@ -43,6 +43,16 @@ func (h *Handler) createListing(ctx *gin.Context) {
 		return
 	}
 
+	if listing.Name == "" {
+		newErrorResponse(ctx, http.StatusBadRequest, "Parameter listing name is not defined.")
+		return
+	}
+
+	if listing.UserID == 0 {
+		newErrorResponse(ctx, http.StatusBadRequest, "Parameter user id is not defined.")
+		return
+	}
+
 	listingId, err := h.services.Listing.CreateListing(listing)
 	if err != nil {
 		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
