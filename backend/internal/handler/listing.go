@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 	"web/internal/model"
 
@@ -25,10 +24,6 @@ func (h *Handler) getListings(ctx *gin.Context) {
 	name := listing.Name
 	userId := listing.UserID
 
-	fmt.Print("id = ", id, "\n")
-	fmt.Print("name = ", name, "\n")
-	fmt.Print("userId = ", userId, "\n")
-
 	listings, err := h.services.Listing.GetListings(id, name, userId)
 	if err != nil {
 		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
@@ -45,6 +40,16 @@ func (h *Handler) createListing(ctx *gin.Context) {
 
 	if err := ctx.ShouldBindJSON(&listing); err != nil {
 		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if listing.Name == "" {
+		newErrorResponse(ctx, http.StatusBadRequest, "Parameter listing name is not defined.")
+		return
+	}
+
+	if listing.UserID == 0 {
+		newErrorResponse(ctx, http.StatusBadRequest, "Parameter user id is not defined.")
 		return
 	}
 
@@ -69,8 +74,6 @@ func (h *Handler) updateListing(ctx *gin.Context) {
 
 	id := listing.ID
 	name := listing.Name
-	fmt.Print("id = ", id, "\n")
-	fmt.Print("name = ", name, "\n")
 
 	userId, err := h.services.Listing.UpdateListing(id, name)
 	if err != nil {
