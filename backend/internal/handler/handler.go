@@ -50,7 +50,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			listingDetailed.DELETE("/", h.deleteListingDetailed)
 		}
 
-		listingImage := api.Group("listings_images")
+		listingImage := api.Group("listing_image")
 		{
 			listingImage.GET("/", h.getListingImages)
 			listingImage.POST("/", h.createListingImage)

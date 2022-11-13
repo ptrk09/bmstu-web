@@ -21,8 +21,9 @@ func (h *Handler) getListingImages(ctx *gin.Context) {
 	}
 
 	id := listingImage.ID
+	listing_id := listingImage.ListingID
 
-	listingImages, err := h.services.ListingImage.GetListingImages(id)
+	listingImages, err := h.services.ListingImage.GetListingImages(id, listing_id)
 	if err != nil {
 		newErrorResponse(ctx, http.StatusInternalServerError, err.Error())
 		return

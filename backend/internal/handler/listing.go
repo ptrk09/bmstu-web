@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 	"web/internal/model"
 
@@ -24,10 +23,6 @@ func (h *Handler) getListings(ctx *gin.Context) {
 	id := listing.ID
 	name := listing.Name
 	userId := listing.UserID
-
-	fmt.Print("id = ", id, "\n")
-	fmt.Print("name = ", name, "\n")
-	fmt.Print("userId = ", userId, "\n")
 
 	listings, err := h.services.Listing.GetListings(id, name, userId)
 	if err != nil {
@@ -69,8 +64,6 @@ func (h *Handler) updateListing(ctx *gin.Context) {
 
 	id := listing.ID
 	name := listing.Name
-	fmt.Print("id = ", id, "\n")
-	fmt.Print("name = ", name, "\n")
 
 	userId, err := h.services.Listing.UpdateListing(id, name)
 	if err != nil {

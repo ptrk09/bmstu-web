@@ -46,7 +46,7 @@ type ListingDetailed interface {
 }
 
 type ListingImage interface {
-	GetListingImages(id int) ([]model.ListingImage, error)
+	GetListingImages(id int, listingId int) ([]model.ListingImage, error)
 	CreateListingImage(listingImage model.ListingImage) (int, error)
 	UpdateLisingImage(id int, imagePath string) (int, error)
 	DeleteListingImage(id int) (int, error)

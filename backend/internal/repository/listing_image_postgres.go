@@ -15,7 +15,7 @@ func NewListingImagePostgres(db *sqlx.DB) *ListingImagePostgres {
 	return &ListingImagePostgres{db}
 }
 
-func (r *ListingImagePostgres) GetListingImages(id int) ([]model.ListingImage, error) {
+func (r *ListingImagePostgres) GetListingImages(id int, listingId int) ([]model.ListingImage, error) {
 	var listingImages []model.ListingImage
 
 	query := fmt.Sprintf("SELECT * FROM %s WHERE", listingsImagesTable)
@@ -24,6 +24,12 @@ func (r *ListingImagePostgres) GetListingImages(id int) ([]model.ListingImage, e
 		query = query + fmt.Sprintf(" id = %s", "id")
 	} else {
 		query = query + fmt.Sprintf(" id = %d", id)
+	}
+
+	if listingId == 0 {
+		query = query + fmt.Sprintf(" AND listing_id = %s", "listingId")
+	} else {
+		query = query + fmt.Sprintf(" AND listing_id = %d", listingId)
 	}
 
 	err := r.db.Select(&listingImages, query)
