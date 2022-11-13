@@ -13,8 +13,8 @@ func NewListingImageService(repo repository.ListingImage) *ListingImageService {
 	return &ListingImageService{repo}
 }
 
-func (s *ListingImageService) GetListingImages(id int) ([]model.ListingImage, error) {
-	return s.repo.GetListingImages(id)
+func (s *ListingImageService) GetListingImages(id int, listingId int) ([]model.ListingImage, error) {
+	return s.repo.GetListingImages(id, listingId)
 }
 
 func (s *ListingImageService) CreateListingImage(listingImage model.ListingImage) (int, error) {
