@@ -47,15 +47,21 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			listingsDetailed.GET("/", h.getListingsDetailed)
 		}
 
-		// teams := api.Group("teams")
-		// {
-		// 	teams.POST("/", h.createTeam)
-		// 	teams.GET("/", h.getAllTeams)
-		// 	teams.GET("/:id", h.getTeamById)
-		// 	teams.PUT("/:id", h.updateTeam)
-		// 	teams.DELETE("/:id", h.deleteTeam)
-		// }
+		calendar := api.Group("calendar")
+		{
+			calendar.GET("/", h.getAllCalendarInfo)
+			calendar.POST("/", h.createCalendarInfo)
+			calendar.PATCH("/:id", h.updateCalendarInfo)
+			calendar.DELETE("/:id", h.deleteCalendarInfo)
+		}
 
+		booking := api.Group("booking")
+		{
+			booking.GET("/", h.getBookings)
+			booking.POST("/", h.createBooking)
+			booking.PATCH("/:id", h.updateBooking)
+			booking.DELETE("/:id", h.deleteBooking)
+		}
 	}
 
 	return router

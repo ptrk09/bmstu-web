@@ -47,12 +47,18 @@ type ListingDetailed interface {
 }
 
 type Calendar interface {
+	GetAllCalendarInfo() ([]model.Calendar, error)
+	CreateCalendarInfo(calendarInfo model.Calendar) (int, error)
+	UpdateCalendarInfo(calendarInfo model.Calendar) (int, error)
+	DeleteCalendarInfo(calendarId int) (int, error)
 }
 
-// type Team interface {
-// 	Create(userId int, team model.Team) (int, error)
-// 	GetAll(userId int) ([]model.Team, error)
-// }
+type Booking interface {
+	GetBookings() ([]model.Booking, error)
+	CreateBooking(booking model.Booking) (int, error)
+	UpdateBooking(booking model.Booking) (int, error)
+	DeleteBooking(bookingId int) (int, error)
+}
 
 type Repository struct {
 	Authorization
@@ -60,7 +66,7 @@ type Repository struct {
 	Listing
 	ListingDetailed
 	Calendar
-	// Team
+	Booking
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
@@ -70,6 +76,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 		Listing:         NewListingPostgres(db),
 		ListingDetailed: NewListingDetailedPostgres(db),
 		Calendar:        NewCalendarPostgres(db),
-		// Team:          NewTeamPostgres(db),
+		Booking:         NewBookingPostgres(db),
 	}
 }

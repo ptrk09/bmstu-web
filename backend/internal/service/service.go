@@ -46,12 +46,19 @@ type ListingDetailed interface {
 	DeleteListingDetailed(id int) (int, error)
 }
 
-type Calendar interface{}
+type Calendar interface {
+	GetAllCalendarInfo() ([]model.Calendar, error)
+	CreateCalendarInfo(calendarInfo model.Calendar) (int, error)
+	UpdateCalendarInfo(calendarInfo model.Calendar) (int, error)
+	DeleteCalendarInfo(calendarId int) (int, error)
+}
 
-// type Team interface {
-// 	Create(userId int, team model.Team) (int, error)
-// 	GetAll(userId int) ([]model.Team, error)
-// }
+type Booking interface {
+	GetBookings() ([]model.Booking, error)
+	CreateBooking(booking model.Booking) (int, error)
+	UpdateBooking(booking model.Booking) (int, error)
+	DeleteBooking(bookingId int) (int, error)
+}
 
 type Service struct {
 	Authorization
@@ -59,7 +66,7 @@ type Service struct {
 	Listing
 	ListingDetailed
 	Calendar
-	// Team
+	Booking
 }
 
 func NewService(repo *repository.Repository) *Service {
@@ -69,6 +76,6 @@ func NewService(repo *repository.Repository) *Service {
 		Listing:         NewListingService(repo.Listing),
 		ListingDetailed: NewListingDetailedService(repo.ListingDetailed),
 		Calendar:        NewCalendarService(repo.Calendar),
-		// Team:          NewTeamService(repo.Team),
+		Booking:         NewBookingService(repo.Booking),
 	}
 }
