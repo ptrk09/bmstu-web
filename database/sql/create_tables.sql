@@ -27,6 +27,11 @@ CREATE TABLE IF NOT EXISTS users (
     FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+ALTER TABLE users
+DROP CONSTRAINT users_role_id_fkey,
+ADD CONSTRAINT users_role_id_fkey
+  	FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE CASCADE ON UPDATE CASCADE;
+
 -- --------------------------------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS listings (
@@ -37,6 +42,11 @@ CREATE TABLE IF NOT EXISTS listings (
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+ALTER TABLE listings
+DROP CONSTRAINT listings_user_id_fkey,
+ADD CONSTRAINT listings_user_id_fkey
+	FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE
 
 -- --------------------------------------------------------------------------------------
 
@@ -54,6 +64,16 @@ CREATE TABLE IF NOT EXISTS listings_detailed (
     FOREIGN KEY (apart_type_id) REFERENCES apart_types (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+ALTER TABLE listings_detailed
+DROP CONSTRAINT listings_detailed_listing_id_fkey,
+ADD CONSTRAINT listings_detailed_listing_id_fkey
+	FOREIGN KEY (listing_id) REFERENCES listings (id) ON DELETE CASCADE ON UPDATE CASCADE
+
+ALTER TABLE listings_detailed
+DROP CONSTRAINT listings_detailed_apart_type_id_fkey,
+ADD CONSTRAINT listings_detailed_apart_type_id_fkey
+	FOREIGN KEY (apart_type_id) REFERENCES apart_types (id) ON DELETE CASCADE ON UPDATE CASCADE
+
 -- --------------------------------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS listings_images (
@@ -64,6 +84,11 @@ CREATE TABLE IF NOT EXISTS listings_images (
     PRIMARY KEY (id),
     FOREIGN KEY (listing_id) REFERENCES listings (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+ALTER TABLE listings_images
+DROP CONSTRAINT listings_images_listing_id_fkey,
+ADD CONSTRAINT listings_images_listing_id_fkey
+	FOREIGN KEY (listing_id) REFERENCES listings (id) ON DELETE CASCADE ON UPDATE CASCADE
 
 -- --------------------------------------------------------------------------------------
 
@@ -77,6 +102,11 @@ CREATE TABLE IF NOT EXISTS calendar (
     FOREIGN KEY (listing_id) REFERENCES listings (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+ALTER TABLE calendar
+DROP CONSTRAINT calendar_listing_id_fkey,
+ADD CONSTRAINT calendar_listing_id_fkey
+	FOREIGN KEY (listing_id) REFERENCES listings (id) ON DELETE CASCADE ON UPDATE CASCADE
+
 -- --------------------------------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS bookings (
@@ -89,3 +119,13 @@ CREATE TABLE IF NOT EXISTS bookings (
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (listing_id) REFERENCES listings (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+ALTER TABLE bookings
+DROP CONSTRAINT bookings_user_id_fkey,
+ADD CONSTRAINT bookings_user_id_fkey
+	FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE
+
+ALTER TABLE bookings
+DROP CONSTRAINT bookings_listing_id_fkey,
+ADD CONSTRAINT bookings_listing_id_fkey
+	FOREIGN KEY (listing_id) REFERENCES listings (id) ON DELETE CASCADE ON UPDATE CASCADE
