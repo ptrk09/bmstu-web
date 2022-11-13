@@ -15,6 +15,8 @@ const (
 	rolesTable           = "roles"
 	listingsTable        = "listings"
 	lisingsDetailedTable = "listings_detailed"
+	calendarTable        = "calendar"
+	bookingsTable        = "bookings"
 	listingsImagesTable  = "listings_images"
 )
 
