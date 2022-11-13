@@ -15,6 +15,7 @@ func NewListingDetailedService(repo repository.ListingDetailed) *ListingDetailed
 
 func (s *ListingDetailedService) GetListingsDetailed(
 	id int,
+	listing_id int,
 	description string,
 	neighbourhood string,
 	apartTypeId int,
@@ -23,6 +24,7 @@ func (s *ListingDetailedService) GetListingsDetailed(
 ) ([]model.ListingDetailed, error) {
 	return s.repo.GetListingsDetailed(
 		id,
+		listing_id,
 		description,
 		neighbourhood,
 		apartTypeId,
@@ -38,16 +40,12 @@ func (s *ListingDetailedService) CreateListingDetailed(listingDetailed model.Lis
 func (s *ListingDetailedService) UpdateListingDetailed(
 	id int,
 	description string,
-	neighbourhood string,
-	apartTypeId int,
 	price float32,
 	minimumNights int,
 ) (int, error) {
 	return s.repo.UpdateListingDetailed(
 		id,
 		description,
-		neighbourhood,
-		apartTypeId,
 		price,
 		minimumNights,
 	)

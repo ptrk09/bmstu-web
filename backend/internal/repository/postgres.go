@@ -15,6 +15,7 @@ const (
 	rolesTable           = "roles"
 	listingsTable        = "listings"
 	lisingsDetailedTable = "listings_detailed"
+	listingsImagesTable  = "listings_images"
 )
 
 type Config struct {

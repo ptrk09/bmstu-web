@@ -28,6 +28,7 @@ type Listing interface {
 type ListingDetailed interface {
 	GetListingsDetailed(
 		id int,
+		listing_id int,
 		description string,
 		neighbourhood string,
 		apartTypeId int,
@@ -38,12 +39,17 @@ type ListingDetailed interface {
 	UpdateListingDetailed(
 		id int,
 		description string,
-		neighbourhood string,
-		apartTypeId int,
 		price float32,
 		minimumNights int,
 	) (int, error)
 	DeleteListingDetailed(id int) (int, error)
+}
+
+type ListingImage interface {
+	GetListingImages(id int) ([]model.ListingImage, error)
+	CreateListingImage(listingImage model.ListingImage) (int, error)
+	UpdateLisingImage(id int, imagePath string) (int, error)
+	DeleteListingImage(id int) (int, error)
 }
 
 type Calendar interface {
@@ -59,6 +65,7 @@ type Repository struct {
 	User
 	Listing
 	ListingDetailed
+	ListingImage
 	Calendar
 	// Team
 }
@@ -69,6 +76,7 @@ func NewRepository(db *sqlx.DB) *Repository {
 		User:            NewUserPostgres(db),
 		Listing:         NewListingPostgres(db),
 		ListingDetailed: NewListingDetailedPostgres(db),
+		ListingImage:    NewListingImagePostgres(db),
 		Calendar:        NewCalendarPostgres(db),
 		// Team:          NewTeamPostgres(db),
 	}
