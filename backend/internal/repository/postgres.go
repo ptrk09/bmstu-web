@@ -17,6 +17,7 @@ const (
 	lisingsDetailedTable = "listings_detailed"
 	calendarTable        = "calendar"
 	bookingsTable        = "bookings"
+	listingsImagesTable  = "listings_images"
 )
 
 type Config struct {

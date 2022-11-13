@@ -34,17 +34,28 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			users.DELETE("/:id", h.deleteUser)
 		}
 
-		listings := api.Group("listings")
+		listing := api.Group("listing")
 		{
-			listings.GET("/", h.getListings)
-			listings.POST("/", h.createListing)
-			listings.PATCH("/", h.updateListing)
-			listings.DELETE("/", h.deleteListing)
+			listing.GET("/", h.getListings)
+			listing.POST("/", h.createListing)
+			listing.PATCH("/", h.updateListing)
+			listing.DELETE("/", h.deleteListing)
 		}
 
-		listingsDetailed := api.Group("listings_detailed")
+		listingDetailed := api.Group("listing_detailed")
 		{
-			listingsDetailed.GET("/", h.getListingsDetailed)
+			listingDetailed.GET("/", h.getListingsDetailed)
+			listingDetailed.POST("/", h.createListingDetailed)
+			listingDetailed.PATCH("/", h.updateListingDetailed)
+			listingDetailed.DELETE("/", h.deleteListingDetailed)
+		}
+
+		listingImage := api.Group("listings_images")
+		{
+			listingImage.GET("/", h.getListingImages)
+			listingImage.POST("/", h.createListingImage)
+			listingImage.PATCH("/", h.updateListingImage)
+			listingImage.DELETE("/", h.deleteListingImage)
 		}
 
 		calendar := api.Group("calendar")
