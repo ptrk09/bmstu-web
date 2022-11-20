@@ -36,6 +36,16 @@ func NewAuthService(repo repository.Authorization) *AuthService {
 	return &AuthService{repo}
 }
 
+// AddUser godoc
+// @Summary Adds user to database
+// @Tags User
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} model.User
+// @Failure 400 {object} model.User
+// @Failure 500 {object} model.User
+// @Param request body model.User true "User's email and password and name"
+// @Router /users/ [post]
 func (s *AuthService) CreateUser(user model.User) (int, error) {
 	user.Password = generatePasswordHash(user.Password)
 	return s.repo.CreateUser(user)
