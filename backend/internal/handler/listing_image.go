@@ -12,6 +12,18 @@ type getAllListingsImagesResponse struct {
 	Data []model.ListingImage `json:"data"`
 }
 
+// getListingImages godoc
+// @Summary Get listing images
+// @Tags listingImage
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} getAllListingsImagesResponse
+// @Failure 400 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Param Authorization header string true "Authorization"
+// @Param id query int false "ID of a listing image."
+// @Param listing_id query int false "Listing ID of a listing image."
+// @Router /listing_image/ [get]
 func (h *Handler) getListingImages(ctx *gin.Context) {
 	var listingImage model.ListingImage
 
@@ -34,6 +46,18 @@ func (h *Handler) getListingImages(ctx *gin.Context) {
 	})
 }
 
+// createListingImage godoc
+// @Summary Create listing images
+// @Tags listingImage
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} responseWithId
+// @Failure 400 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Param Authorization header string true "Authorization"
+// @Param listing_id body int true "Listing ID of a listing image."
+// @Param image_path body string true "Image path of a listing image."
+// @Router /listing_image/ [post]
 func (h *Handler) createListingImage(ctx *gin.Context) {
 	var listingImage model.ListingImage
 
@@ -58,11 +82,21 @@ func (h *Handler) createListingImage(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, map[string]interface{}{
-		"id": listingImageId,
-	})
+	ctx.JSON(http.StatusOK, responseWithId{listingImageId})
 }
 
+// updateListingImage godoc
+// @Summary Update listing images
+// @Tags listingImage
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} responseWithId
+// @Failure 400 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Param Authorization header string true "Authorization"
+// @Param id query int false "ID of a listing image."
+// @Param image_path query string false "Image path of a listing image."
+// @Router /listing_image/ [patch]
 func (h *Handler) updateListingImage(ctx *gin.Context) {
 	var listingImage model.ListingImage
 
@@ -81,11 +115,20 @@ func (h *Handler) updateListingImage(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, map[string]interface{}{
-		"id": listingImageId,
-	})
+	ctx.JSON(http.StatusOK, responseWithId{listingImageId})
 }
 
+// deleteListingImage godoc
+// @Summary Delete listing images
+// @Tags listingImage
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} responseWithId
+// @Failure 400 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Param Authorization header string true "Authorization"
+// @Param id query int true "ID of a listing image."
+// @Router /listing_image/ [delete]
 func (h *Handler) deleteListingImage(ctx *gin.Context) {
 	var listingImage model.ListingImage
 
@@ -102,7 +145,5 @@ func (h *Handler) deleteListingImage(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, map[string]interface{}{
-		"id": listingImageId,
-	})
+	ctx.JSON(http.StatusOK, responseWithId{listingImageId})
 }

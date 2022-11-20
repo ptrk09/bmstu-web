@@ -12,6 +12,19 @@ type getAllListingsResponse struct {
 	Data []model.Listing `json:"data"`
 }
 
+// getListings godoc
+// @Summary Get listings
+// @Tags listing
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} getAllListingsResponse
+// @Failure 400 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Param Authorization header string true "Authorization"
+// @Param id query int false "ID of a listing."
+// @Param name query string false "Name of a listing."
+// @Param user_id query int false "ID of a user."
+// @Router /listing/ [get]
 func (h *Handler) getListings(ctx *gin.Context) {
 	var listing model.Listing
 
@@ -35,6 +48,18 @@ func (h *Handler) getListings(ctx *gin.Context) {
 	})
 }
 
+// createListing godoc
+// @Summary Create listing
+// @Tags listing
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} responseWithId
+// @Failure 400 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Param Authorization header string true "Authorization"
+// @Param name body string true "Name of a listing."
+// @Param user_id body int true "ID of a user."
+// @Router /listing/ [post]
 func (h *Handler) createListing(ctx *gin.Context) {
 	var listing model.Listing
 
@@ -59,15 +84,25 @@ func (h *Handler) createListing(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, map[string]interface{}{
-		"id": listingId,
-	})
+	ctx.JSON(http.StatusOK, responseWithId{listingId})
 }
 
+// updateListing godoc
+// @Summary Update listing
+// @Tags listing
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} responseWithId
+// @Failure 400 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Param Authorization header string true "Authorization"
+// @Param id query int true "ID of a listing."
+// @Param name query string true "Name of a listing."
+// @Router /listing/ [patch]
 func (h *Handler) updateListing(ctx *gin.Context) {
 	var listing model.Listing
 
-	if err := ctx.ShouldBindJSON(&listing); err != nil {
+	if err := ctx.ShouldBindWith(&listing, binding.Query); err != nil {
 		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -81,15 +116,24 @@ func (h *Handler) updateListing(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, map[string]interface{}{
-		"user_id": userId,
-	})
+	ctx.JSON(http.StatusOK, responseWithId{userId})
 }
 
+// deleteListing godoc
+// @Summary Delete listing
+// @Tags listing
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} responseWithId
+// @Failure 400 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Param Authorization header string true "Authorization"
+// @Param id query int true "ID of a listing."
+// @Router /listing/ [delete]
 func (h *Handler) deleteListing(ctx *gin.Context) {
 	var listing model.Listing
 
-	if err := ctx.ShouldBindJSON(&listing); err != nil {
+	if err := ctx.ShouldBindWith(&listing, binding.Query); err != nil {
 		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -102,7 +146,5 @@ func (h *Handler) deleteListing(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, map[string]interface{}{
-		"id": listingId,
-	})
+	ctx.JSON(http.StatusOK, responseWithId{listingId})
 }

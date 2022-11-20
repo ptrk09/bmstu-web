@@ -12,6 +12,23 @@ type getAllListingsDetailedResponse struct {
 	Data []model.ListingDetailed `json:"data"`
 }
 
+// getListingsDetailed godoc
+// @Summary Get listings detailed
+// @Tags listingDetailed
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} getAllListingsDetailedResponse
+// @Failure 400 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Param Authorization header string true "Authorization"
+// @Param id query int false "ID of a listing detailed."
+// @Param listing_id query int false "Listing ID of a listing detailed."
+// @Param description query string false "Description of a listing."
+// @Param neighbourhood query string false "Neighbourhood of a listing."
+// @Param apart_type_id query int false "Apart type ID of a listing."
+// @Param price query float32 false "Price of a listing."
+// @Param minimum_nights query int false "Minimum nights of a listing."
+// @Router /listing_detailed/ [get]
 func (h *Handler) getListingsDetailed(ctx *gin.Context) {
 	var listingDetailed model.ListingDetailed
 
@@ -47,6 +64,22 @@ func (h *Handler) getListingsDetailed(ctx *gin.Context) {
 	})
 }
 
+// createListingsDetailed godoc
+// @Summary Create listings detailed
+// @Tags listingDetailed
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} responseWithId
+// @Failure 400 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Param Authorization header string true "Authorization"
+// @Param listing_id body int true "Listing ID of a listing detailed."
+// @Param description body string false "Description of a listing."
+// @Param neighbourhood body string false "Neighbourhood of a listing."
+// @Param apart_type_id body string false "Apart type ID of a listing."
+// @Param price body string true "Price of a listing."
+// @Param minimum_nights body float32 false "Minimum nights of a listing."
+// @Router /listing_detailed/ [post]
 func (h *Handler) createListingDetailed(ctx *gin.Context) {
 	var listingDetailed model.ListingDetailed
 
@@ -71,15 +104,27 @@ func (h *Handler) createListingDetailed(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, map[string]interface{}{
-		"id": listingDetailedId,
-	})
+	ctx.JSON(http.StatusOK, responseWithId{listingDetailedId})
 }
 
+// updateListingDetailed godoc
+// @Summary Update listings detailed
+// @Tags listingDetailed
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} responseWithId
+// @Failure 400 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Param Authorization header string true "Authorization"
+// @Param id query int false "ID of a listing detailed."
+// @Param description query string false "Description of a listing."
+// @Param price query float32 true "Price of a listing."
+// @Param minimum_nights query int false "Minimum nights of a listing."
+// @Router /listing_detailed/ [patch]
 func (h *Handler) updateListingDetailed(ctx *gin.Context) {
 	var listingDetailed model.ListingDetailed
 
-	if err := ctx.ShouldBindJSON(&listingDetailed); err != nil {
+	if err := ctx.ShouldBindWith(&listingDetailed, binding.Query); err != nil {
 		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -101,15 +146,24 @@ func (h *Handler) updateListingDetailed(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, map[string]interface{}{
-		"id": listingDetailedId,
-	})
+	ctx.JSON(http.StatusOK, responseWithId{listingDetailedId})
 }
 
+// deleteListingDetailed godoc
+// @Summary Delete listings detailed
+// @Tags listingDetailed
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} responseWithId
+// @Failure 400 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Param Authorization header string true "Authorization"
+// @Param id query int true "ID of a listing detailed."
+// @Router /listing_detailed/ [delete]
 func (h *Handler) deleteListingDetailed(ctx *gin.Context) {
 	var listingDetailed model.ListingDetailed
 
-	if err := ctx.ShouldBindJSON(&listingDetailed); err != nil {
+	if err := ctx.ShouldBindWith(&listingDetailed, binding.Query); err != nil {
 		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -122,7 +176,5 @@ func (h *Handler) deleteListingDetailed(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, map[string]interface{}{
-		"id": listingDetailedId,
-	})
+	ctx.JSON(http.StatusOK, responseWithId{listingDetailedId})
 }
