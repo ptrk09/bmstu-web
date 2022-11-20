@@ -12,6 +12,16 @@ type getAllBookingsResponse struct {
 	Data []model.Booking `json:"data"`
 }
 
+// getBookings godoc
+// @Summary Get bookings
+// @Tags booking
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} getAllBookingsResponse
+// @Failure 400 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Param Authorization header string true "Authorization"
+// @Router /booking/ [get]
 func (h *Handler) getBookings(ctx *gin.Context) {
 	bookings, err := h.services.Booking.GetBookings()
 	if err != nil {

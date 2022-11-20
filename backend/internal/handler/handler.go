@@ -3,7 +3,11 @@ package handler
 import (
 	"web/internal/service"
 
+	_ "web/docs"
+
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 type Handler struct {
@@ -74,6 +78,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			booking.DELETE("/:id", h.deleteBooking)
 		}
 	}
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	return router
 }

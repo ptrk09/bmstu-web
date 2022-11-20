@@ -12,6 +12,24 @@ type signInInput struct {
 	Password string `json:"password" binding:"required"`
 }
 
+type resultWithId struct {
+	ID int `json:"id" binding:"required"`
+}
+
+type resultWithToken struct {
+	Token string `json:"token" binding:"required"`
+}
+
+// signUp godoc
+// @Summary Sign-up user
+// @Tags auth
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} resultWithId
+// @Failure 400 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Param request body model.User true "User's name, login, password and role"
+// @Router /signUp/ [post]
 func (h *Handler) signUp(ctx *gin.Context) {
 	var input model.User
 
@@ -26,11 +44,19 @@ func (h *Handler) signUp(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, map[string]interface{}{
-		"id": id,
-	})
+	ctx.JSON(http.StatusOK, resultWithId{id})
 }
 
+// signIn godoc
+// @Summary Sign-in user
+// @Tags auth
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} resultWithToken
+// @Failure 400 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Param request body signInInput true "User's login and password"
+// @Router /signIn/ [post]
 func (h *Handler) signIn(ctx *gin.Context) {
 	var input signInInput
 
@@ -45,7 +71,5 @@ func (h *Handler) signIn(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, map[string]interface{}{
-		"token": token,
-	})
+	ctx.JSON(http.StatusOK, resultWithToken{token})
 }
