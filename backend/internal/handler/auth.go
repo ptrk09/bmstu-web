@@ -12,20 +12,12 @@ type signInInput struct {
 	Password string `json:"password" binding:"required"`
 }
 
-type resultWithId struct {
-	ID int `json:"id" binding:"required"`
-}
-
-type resultWithToken struct {
-	Token string `json:"token" binding:"required"`
-}
-
 // signUp godoc
 // @Summary Sign-up user
 // @Tags auth
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} resultWithId
+// @Success 200 {object} responseWithId
 // @Failure 400 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Param request body model.User true "User's name, login, password and role"
@@ -44,7 +36,7 @@ func (h *Handler) signUp(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, resultWithId{id})
+	ctx.JSON(http.StatusOK, responseWithId{id})
 }
 
 // signIn godoc
@@ -52,7 +44,7 @@ func (h *Handler) signUp(ctx *gin.Context) {
 // @Tags auth
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} resultWithToken
+// @Success 200 {object} responseWithToken
 // @Failure 400 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Param request body signInInput true "User's login and password"
@@ -71,5 +63,5 @@ func (h *Handler) signIn(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, resultWithToken{token})
+	ctx.JSON(http.StatusOK, responseWithToken{token})
 }

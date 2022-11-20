@@ -86,7 +86,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handler.resultWithToken"
+                            "$ref": "#/definitions/handler.responseWithToken"
                         }
                     },
                     "400": {
@@ -131,7 +131,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handler.resultWithId"
+                            "$ref": "#/definitions/handler.responseWithId"
                         }
                     },
                     "400": {
@@ -144,51 +144,6 @@ const docTemplate = `{
                         "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/handler.errorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/users/": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "Adds user to database",
-                "parameters": [
-                    {
-                        "description": "User's email and password and name",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.User"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/model.User"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/model.User"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/model.User"
                         }
                     }
                 }
@@ -215,7 +170,7 @@ const docTemplate = `{
                 }
             }
         },
-        "handler.resultWithId": {
+        "handler.responseWithId": {
             "type": "object",
             "required": [
                 "id"
@@ -226,7 +181,7 @@ const docTemplate = `{
                 }
             }
         },
-        "handler.resultWithToken": {
+        "handler.responseWithToken": {
             "type": "object",
             "required": [
                 "token"

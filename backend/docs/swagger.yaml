@@ -11,14 +11,14 @@ definitions:
           $ref: '#/definitions/model.Booking'
         type: array
     type: object
-  handler.resultWithId:
+  handler.responseWithId:
     properties:
       id:
         type: integer
     required:
     - id
     type: object
-  handler.resultWithToken:
+  handler.responseWithToken:
     properties:
       token:
         type: string
@@ -116,7 +116,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handler.resultWithToken'
+            $ref: '#/definitions/handler.responseWithToken'
         "400":
           description: Bad Request
           schema:
@@ -145,7 +145,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handler.resultWithId'
+            $ref: '#/definitions/handler.responseWithId'
         "400":
           description: Bad Request
           schema:
@@ -157,33 +157,4 @@ paths:
       summary: Sign-up user
       tags:
       - auth
-  /users/:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: User's email and password and name
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/model.User'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/model.User'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/model.User'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/model.User'
-      summary: Adds user to database
-      tags:
-      - User
 swagger: "2.0"
