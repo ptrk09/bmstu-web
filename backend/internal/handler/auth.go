@@ -21,7 +21,7 @@ type signInInput struct {
 // @Failure 400 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Param request body model.User true "User's name, login, password and role"
-// @Router /signUp/ [post]
+// @Router /auth/signUp/ [post]
 func (h *Handler) signUp(ctx *gin.Context) {
 	var input model.User
 
@@ -48,7 +48,7 @@ func (h *Handler) signUp(ctx *gin.Context) {
 // @Failure 400 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Param request body signInInput true "User's login and password"
-// @Router /signIn/ [post]
+// @Router /auth/signIn/ [post]
 func (h *Handler) signIn(ctx *gin.Context) {
 	var input signInInput
 
