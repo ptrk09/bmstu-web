@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
 	"web/internal/model"
 
 	"github.com/gin-gonic/gin"
@@ -116,20 +117,25 @@ func (h *Handler) createListingDetailed(ctx *gin.Context) {
 // @Failure 400 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Param Authorization header string true "Authorization"
-// @Param id query int false "ID of a listing detailed."
-// @Param description query string false "Description of a listing."
-// @Param price query float32 true "Price of a listing."
-// @Param minimum_nights query int false "Minimum nights of a listing."
-// @Router /listing_detailed/ [patch]
+// @Param id path int false "ID of a listing detailed."
+// @Param description body string false "Description of a listing."
+// @Param price body float32 true "Price of a listing."
+// @Param minimum_nights body int false "Minimum nights of a listing."
+// @Router /listing_detailed/{id} [patch]
 func (h *Handler) updateListingDetailed(ctx *gin.Context) {
 	var listingDetailed model.ListingDetailed
+
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		newErrorResponse(ctx, http.StatusBadRequest, "invalid id param")
+		return
+	}
 
 	if err := ctx.ShouldBindWith(&listingDetailed, binding.Query); err != nil {
 		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	id := listingDetailed.ID
 	description := listingDetailed.Description
 	price := listingDetailed.Price
 	minimim_nights := listingDetailed.MinimumNights
@@ -158,17 +164,14 @@ func (h *Handler) updateListingDetailed(ctx *gin.Context) {
 // @Failure 400 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Param Authorization header string true "Authorization"
-// @Param id query int true "ID of a listing detailed."
-// @Router /listing_detailed/ [delete]
+// @Param id path int true "ID of a listing detailed."
+// @Router /listing_detailed/{id} [delete]
 func (h *Handler) deleteListingDetailed(ctx *gin.Context) {
-	var listingDetailed model.ListingDetailed
-
-	if err := ctx.ShouldBindWith(&listingDetailed, binding.Query); err != nil {
-		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		newErrorResponse(ctx, http.StatusBadRequest, "invalid id param")
 		return
 	}
-
-	id := listingDetailed.ID
 
 	listingDetailedId, err := h.services.ListingDetailed.DeleteListingDetailed(id)
 	if err != nil {

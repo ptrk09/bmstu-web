@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
 	"web/internal/model"
 
 	"github.com/gin-gonic/gin"
@@ -88,24 +89,29 @@ func (h *Handler) createListingImage(ctx *gin.Context) {
 // updateListingImage godoc
 // @Summary Update listing images
 // @Tags listingImage
-// @Accept  json
-// @Produce  json
+// @Accept json
+// @Produce json
 // @Success 200 {object} responseWithId
 // @Failure 400 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Param Authorization header string true "Authorization"
-// @Param id query int false "ID of a listing image."
-// @Param image_path query string false "Image path of a listing image."
-// @Router /listing_image/ [patch]
+// @Param id path int false "ID of a listing image."
+// @Param image_path body string false "Image path of a listing image."
+// @Router /listing_image/{id} [patch]
 func (h *Handler) updateListingImage(ctx *gin.Context) {
 	var listingImage model.ListingImage
+
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		newErrorResponse(ctx, http.StatusBadRequest, "invalid id param")
+		return
+	}
 
 	if err := ctx.ShouldBindWith(&listingImage, binding.Query); err != nil {
 		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	id := listingImage.ID
 	image_path := listingImage.ImagePath
 
 	listingImageId, err := h.services.ListingImage.UpdateLisingImage(id, image_path)
@@ -121,23 +127,20 @@ func (h *Handler) updateListingImage(ctx *gin.Context) {
 // deleteListingImage godoc
 // @Summary Delete listing images
 // @Tags listingImage
-// @Accept  json
-// @Produce  json
+// @Accept json
+// @Produce json
 // @Success 200 {object} responseWithId
 // @Failure 400 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Param Authorization header string true "Authorization"
-// @Param id query int true "ID of a listing image."
-// @Router /listing_image/ [delete]
+// @Param id path int true "ID of a listing image."
+// @Router /listing_image/{id} [delete]
 func (h *Handler) deleteListingImage(ctx *gin.Context) {
-	var listingImage model.ListingImage
-
-	if err := ctx.ShouldBindWith(&listingImage, binding.Query); err != nil {
-		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		newErrorResponse(ctx, http.StatusBadRequest, "invalid id param")
 		return
 	}
-
-	id := listingImage.ID
 
 	listingImageId, err := h.services.ListingImage.DeleteListingImage(id)
 	if err != nil {

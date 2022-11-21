@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
 	"web/internal/model"
 
 	"github.com/gin-gonic/gin"
@@ -96,18 +97,23 @@ func (h *Handler) createListing(ctx *gin.Context) {
 // @Failure 400 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Param Authorization header string true "Authorization"
-// @Param id query int true "ID of a listing."
-// @Param name query string true "Name of a listing."
-// @Router /listing/ [patch]
+// @Param id path int true "ID of a listing."
+// @Param name body string true "Name of a listing."
+// @Router /listing/{id} [patch]
 func (h *Handler) updateListing(ctx *gin.Context) {
 	var listing model.Listing
 
-	if err := ctx.ShouldBindWith(&listing, binding.Query); err != nil {
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		newErrorResponse(ctx, http.StatusBadRequest, "invalid id param")
+		return
+	}
+
+	if err := ctx.ShouldBindJSON(&listing); err != nil {
 		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	id := listing.ID
 	name := listing.Name
 
 	userId, err := h.services.Listing.UpdateListing(id, name)
@@ -129,16 +135,13 @@ func (h *Handler) updateListing(ctx *gin.Context) {
 // @Failure 500 {object} errorResponse
 // @Param Authorization header string true "Authorization"
 // @Param id query int true "ID of a listing."
-// @Router /listing/ [delete]
+// @Router /listing/{id} [delete]
 func (h *Handler) deleteListing(ctx *gin.Context) {
-	var listing model.Listing
-
-	if err := ctx.ShouldBindWith(&listing, binding.Query); err != nil {
-		newErrorResponse(ctx, http.StatusBadRequest, err.Error())
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		newErrorResponse(ctx, http.StatusBadRequest, "invalid id param")
 		return
 	}
-
-	id := listing.ID
 
 	listingId, err := h.services.Listing.DeleteListing(id)
 	if err != nil {

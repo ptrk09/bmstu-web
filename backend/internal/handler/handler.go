@@ -42,24 +42,24 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		{
 			listing.GET("/", h.getListings)
 			listing.POST("/", h.createListing)
-			listing.PATCH("/", h.updateListing)
-			listing.DELETE("/", h.deleteListing)
+			listing.PATCH("/:id", h.updateListing)
+			listing.DELETE("/:id", h.deleteListing)
 		}
 
 		listingDetailed := api.Group("listing_detailed")
 		{
 			listingDetailed.GET("/", h.getListingsDetailed)
 			listingDetailed.POST("/", h.createListingDetailed)
-			listingDetailed.PATCH("/", h.updateListingDetailed)
-			listingDetailed.DELETE("/", h.deleteListingDetailed)
+			listingDetailed.PATCH("/:id", h.updateListingDetailed)
+			listingDetailed.DELETE("/:id", h.deleteListingDetailed)
 		}
 
 		listingImage := api.Group("listing_image")
 		{
 			listingImage.GET("/", h.getListingImages)
 			listingImage.POST("/", h.createListingImage)
-			listingImage.PATCH("/", h.updateListingImage)
-			listingImage.DELETE("/", h.deleteListingImage)
+			listingImage.PATCH("/:id", h.updateListingImage)
+			listingImage.DELETE("/:id", h.deleteListingImage)
 		}
 
 		calendar := api.Group("calendar")
