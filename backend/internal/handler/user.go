@@ -43,7 +43,7 @@ func (h *Handler) getAllUsers(ctx *gin.Context) {
 // @Failure 400 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Param Authorization header string true "Authorization"
-// @Param id query int true "user id"
+// @Param id path int true "user id"
 // @Router /user/{id} [get]
 func (h *Handler) getUserById(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
@@ -72,7 +72,7 @@ func (h *Handler) getUserById(ctx *gin.Context) {
 // @Failure 400 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Param Authorization header string true "Authorization"
-// @Param id query int true "user id"
+// @Param id path int true "user id"
 // @Router /user/{id} [patch]
 func (h *Handler) updateUser(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
@@ -105,7 +105,7 @@ func (h *Handler) updateUser(ctx *gin.Context) {
 // @Failure 400 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Param Authorization header string true "Authorization"
-// @Param id query int true "user id"
+// @Param id path int true "user id"
 // @Router /user/{id} [delete]
 func (h *Handler) deleteUser(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))

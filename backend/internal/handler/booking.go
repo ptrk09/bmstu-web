@@ -71,7 +71,7 @@ func (h *Handler) createBooking(ctx *gin.Context) {
 // @Failure 400 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Param Authorization header string true "Authorization"
-// @Param id query int true "booking id"
+// @Param id path int true "booking id"
 // @Router /booking/{id} [patch]
 func (h *Handler) updateBooking(ctx *gin.Context) {
 	var input model.Booking
@@ -106,7 +106,7 @@ func (h *Handler) updateBooking(ctx *gin.Context) {
 // @Failure 400 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Param Authorization header string true "Authorization"
-// @Param id query int true "booking id"
+// @Param id path int true "booking id"
 // @Router /booking/{id} [delete]
 func (h *Handler) deleteBooking(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))

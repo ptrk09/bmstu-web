@@ -71,7 +71,7 @@ func (h *Handler) createCalendarInfo(ctx *gin.Context) {
 // @Failure 400 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Param Authorization header string true "Authorization"
-// @Param id query int true "calendar id"
+// @Param id path int true "calendar id"
 // @Router /calendar/{id} [patch]
 func (h *Handler) updateCalendarInfo(ctx *gin.Context) {
 	var input model.Calendar
@@ -106,7 +106,7 @@ func (h *Handler) updateCalendarInfo(ctx *gin.Context) {
 // @Failure 400 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Param Authorization header string true "Authorization"
-// @Param id query int true "calendar id"
+// @Param id path int true "calendar id"
 // @Router /calendar/{id} [delete]
 func (h *Handler) deleteCalendarInfo(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
