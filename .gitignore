@@ -1,7 +1,2 @@
 .DS_Store
 .vscode
-
-backend/go.mod
-backend/go.sum
-backend/configs/config.yml
-backend/docs/*
