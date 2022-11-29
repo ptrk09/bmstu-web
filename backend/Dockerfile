@@ -11,13 +11,15 @@ WORKDIR /app
 # Copy the source from the current directory to the working Directory inside the container
 # COPY . .
 COPY ./app .
-# COPY .env .
+COPY .env .
+COPY ./apartments_dump.sql .
+RUN ls 
 
 # Download all the dependencies
 # RUN go get -d -v ./app/...
 
 # Install the package
-RUN go install -v 
+RUN go install -v
 
 # Build the Go app
 RUN go build -o /build

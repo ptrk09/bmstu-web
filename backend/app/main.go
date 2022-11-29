@@ -10,7 +10,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-const configPath = "config/config.json"
+const configPath = "configs/config.yml"
 
 func main() {
 	logrus.SetFormatter(new(logrus.JSONFormatter))
@@ -27,6 +27,9 @@ func main() {
 		SSLMode:  viper.GetString("db.sslmode"),
 	})
 
+	logrus.Info(viper.GetString("db.port"))
+	logrus.Info(viper.GetString("db.host"))
+
 	if err != nil {
 		logrus.Fatalln("failed to init db:", err.Error())
 	}
@@ -42,7 +45,8 @@ func main() {
 }
 
 func initConfig() error {
-	viper.AddConfigPath("configs")
+	viper.AddConfigPath("./app/configs")
 	viper.SetConfigName("config")
+	viper.SetConfigType("yaml")
 	return viper.ReadInConfig()
 }
