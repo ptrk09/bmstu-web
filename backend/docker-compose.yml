@@ -22,5 +22,17 @@ services:
     volumes:
       - ./pg_data:/var/lib/postgresql/data
 
+  nginx:
+    container_name: nginx
+    restart: always
+    build: ./nginx
+    volumes:
+      - static_volume:/home/app/web/staticfiles
+    ports:
+      - 81:80
+    depends_on:
+      - app
+
 volumes:
   pg_data:
+  static_volume:
