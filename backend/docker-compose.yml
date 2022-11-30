@@ -27,7 +27,7 @@ services:
     restart: always
     build: ./nginx
     volumes:
-      - static_volume:/home/app/web/staticfiles
+      - ./static:/home/static
     ports:
       - 81:80
     depends_on:

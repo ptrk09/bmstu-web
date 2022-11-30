@@ -29,7 +29,6 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 	api := router.Group("api/v1/", h.userIdentity)
 	{
-
 		users := api.Group("users")
 		{
 			users.GET("/", h.getAllUsers)
