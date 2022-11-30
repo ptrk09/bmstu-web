@@ -78,6 +78,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			booking.DELETE("/:id", h.deleteBooking)
 		}
 	}
+
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	return router

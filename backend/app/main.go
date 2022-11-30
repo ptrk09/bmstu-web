@@ -10,8 +10,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-const configPath = "configs/config.yml"
-
 func main() {
 	logrus.SetFormatter(new(logrus.JSONFormatter))
 	if err := initConfig(); err != nil {

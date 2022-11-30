@@ -9,11 +9,8 @@ RUN mkdir /app
 WORKDIR /app
 
 # Copy the source from the current directory to the working Directory inside the container
-# COPY . .
 COPY ./app .
 COPY .env .
-COPY ./apartments_dump.sql .
-RUN ls 
 
 # Download all the dependencies
 # RUN go get -d -v ./app/...
@@ -25,7 +22,7 @@ RUN go install -v
 RUN go build -o /build
 
 # Expose port 8080 to the outside world
-EXPOSE 8080
+# EXPOSE 8000
 
 # Run the executable
 CMD [ "/build" ]
