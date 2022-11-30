@@ -1,0 +1,7 @@
+app/go.mod
+app/go.sum
+app/vendor
+app/configs/config.yml
+app/docs/*
+
+pg_data

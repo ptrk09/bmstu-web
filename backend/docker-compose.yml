@@ -1,0 +1,26 @@
+version: '3.9'
+services:
+  app:
+    container_name: golang_container
+    tty: true
+    build: .
+    ports:
+      - 8080:8080
+    restart: on-failure
+    volumes:
+      - .:/app
+    depends_on:
+      - postgresdb
+
+  postgresdb:
+    image: postgres:latest
+    container_name: postgres_container
+    environment:
+      POSTGRES_DB: "apartments"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "qwerty"
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data
+
+volumes:
+  pg_data:

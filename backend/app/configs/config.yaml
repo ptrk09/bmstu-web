@@ -1,0 +1,9 @@
+port: "8080"
+
+db:
+  username: "postgres"
+  password: "qwerty"
+  host: "postgresdb"
+  port: "5432"
+  dbname: "apartments"
+  sslmode: "disable"
