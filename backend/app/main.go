@@ -8,6 +8,11 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+
+	"os"
+    "os/signal"
+    "syscall"
+	"context"
 )
 
 const configPath = "configs/config.yml"
@@ -39,8 +44,26 @@ func main() {
 	handlers := handler.NewHandler(services)
 
 	srv := new(server.Server)
-	if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
-		logrus.Fatalln("error occured while running http server:", err.Error())
+	go func () {
+		if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
+			logrus.Fatalln("error occured while running http server:", err.Error())
+		}
+	}()
+	
+	logrus.Info("server started")
+
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
+	<- quit
+
+	logrus.Info("server shutting down")
+
+	if err := srv.Shutdown(context.Background()); err != nil {
+		logrus.Errorf("error exit server", err.Error())
+	}
+
+	if err := db.Close(); err != nil {
+		logrus.Errorf("error close db", err.Error())
 	}
 }
 
