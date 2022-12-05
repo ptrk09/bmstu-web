@@ -1,9 +1,0 @@
-upstream app_upstream {
-    server app_prod1:8080 weight=2;
-    server app_prod1:8080;
-    server app_prod1:8080;
-}
-
-upstream pgadmin_upstream {
-    server pgadmin:80;
-}
