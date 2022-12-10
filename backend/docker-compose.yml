@@ -36,6 +36,18 @@ services:
     depends_on:
       - postgresdb
 
+  app_dev:
+    build:
+      context: ./app
+      dockerfile: Dockerfile.dev
+    ports:
+      - 8003:8080
+    restart: on-failure
+    volumes:
+      - .:/app
+    depends_on:
+      - postgresdb
+
   postgresdb:
     image: postgres:latest
     container_name: postgres_container
@@ -72,6 +84,7 @@ services:
       - app_prod1
       - app_prod2
       - app_prod3
+      - app_dev
 
 volumes:
   pg_data:
