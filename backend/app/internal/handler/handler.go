@@ -2,6 +2,7 @@ package handler
 
 import (
 	"web/internal/service"
+	"net/http"
 
 	_ "web/docs"
 
@@ -27,9 +28,9 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		auth.POST("sign-in", h.signIn)
 	}
 
-	api := router.Group("api/v1/", h.userIdentity)
+	api := router.Group("api/v1/")
 	{
-		users := api.Group("users")
+		users := api.Group("users", h.userIdentity)
 		{
 			users.GET("/", h.getAllUsers)
 			users.GET("/:id", h.getUserById)
@@ -37,7 +38,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			users.DELETE("/:id", h.deleteUser)
 		}
 
-		listing := api.Group("listing")
+		listing := api.Group("listing", h.userIdentity)
 		{
 			listing.GET("/", h.getListings)
 			listing.POST("/", h.createListing)
@@ -45,7 +46,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			listing.DELETE("/:id", h.deleteListing)
 		}
 
-		listingDetailed := api.Group("listing_detailed")
+		listingDetailed := api.Group("listing_detailed", h.userIdentity)
 		{
 			listingDetailed.GET("/", h.getListingsDetailed)
 			listingDetailed.POST("/", h.createListingDetailed)
@@ -53,7 +54,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			listingDetailed.DELETE("/:id", h.deleteListingDetailed)
 		}
 
-		listingImage := api.Group("listing_image")
+		listingImage := api.Group("listing_image", h.userIdentity)
 		{
 			listingImage.GET("/", h.getListingImages)
 			listingImage.POST("/", h.createListingImage)
@@ -61,7 +62,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			listingImage.DELETE("/:id", h.deleteListingImage)
 		}
 
-		calendar := api.Group("calendar")
+		calendar := api.Group("calendar", h.userIdentity)
 		{
 			calendar.GET("/", h.getAllCalendarInfo)
 			calendar.POST("/", h.createCalendarInfo)
@@ -69,16 +70,20 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			calendar.DELETE("/:id", h.deleteCalendarInfo)
 		}
 
-		booking := api.Group("booking")
+		booking := api.Group("booking", h.userIdentity)
 		{
 			booking.GET("/", h.getBookings)
 			booking.POST("/", h.createBooking)
 			booking.PATCH("/:id", h.updateBooking)
 			booking.DELETE("/:id", h.deleteBooking)
 		}
+
+		api.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+		api.GET("/", func(ctx *gin.Context) {
+			ctx.Redirect(http.StatusFound, "swagger/index.html")
+		})
 	}
 
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	return router
 }
